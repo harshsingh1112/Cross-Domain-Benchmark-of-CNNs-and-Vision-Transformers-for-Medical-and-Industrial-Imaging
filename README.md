@@ -2,7 +2,7 @@
 
 ## Overview
 
-This project implements a controlled benchmark to compare three widely used vision model families — **ResNet-50**, **EfficientNet-B0**, and **ViT-Tiny** — across two applied image classification domains:
+This project implements a controlled benchmark to compare three widely used vision model families - **ResNet-50**, **EfficientNet-B0**, and **ViT-Tiny** across two applied image classification domains:
 
 - **Medical imaging**
 - **Industrial / applied science imaging**
