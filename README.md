@@ -20,26 +20,6 @@ vision-benchmark/
 ├── train.py        # Main training script
 └── evaluate.py     # Plotting and evaluation script
 ```
-
-## How to Run Locally (Mac M1/Apple Silicon)
-
-1. **Prerequisites**: Ensure you have Python 3.9+ installed.
-2. **Install Dependencies**:
-   ```bash
-   pip install -r requirements.txt
-   ```
-   *Note: On Mac M1, PyTorch uses MPS acceleration automatically if available (handled in `train.py`).*
-
-3. **Run Experiments**:
-   Run the training script with a specific config file:
-   ```bash
-   # Example: Train ResNet on PathMNIST
-   python train.py --config configs/pathmnist_resnet.yaml
-   
-   # Example: Train ViT on EuroSAT
-   python train.py --config configs/eurosat_vit.yaml
-   ```
-
 ## How to Run on Google Colab
 
 1. **Upload Code**: Zip the `vision-benchmark` folder and upload it to your Google Drive.
