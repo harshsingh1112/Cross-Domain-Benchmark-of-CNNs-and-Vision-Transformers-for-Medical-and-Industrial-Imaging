@@ -1,0 +1,14 @@
+experiment_name: eurosat_resnet
+domain: industrial
+dataset: eurosat
+model: resnet
+num_classes: 10
+
+training:
+  resolution: 224
+  batch_size: 64
+  learning_rate: 0.0001
+  optimizer: adamw
+  epochs: 30
+  patience: 5
+  seed: 42
