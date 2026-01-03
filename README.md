@@ -1,57 +1,155 @@
 # Fixed-Budget Cross-Domain Vision Benchmark
 
-## Project Overview
-This project benchmarks three vision model families (ResNet-50, EfficientNet-B0, ViT-Tiny) across two distinct domains: **Medical** (Pathology) and **Industrial** (Remote Sensing). The goal is to evaluate performance and efficiency under strict, fixed experimental constraints.
+## Overview
 
-## Scope & Limitations
-- **Experimentally Evaluated**: 
-  - Medical: PathMNIST (Histopathology)
-  - Industrial: EuroSAT (Land Use/Cover)
-- **Literature-Inferred**: 18 other sub-domains (9 per domain) are analyzed contextually in the `analysis/` folder but are not experimentally validated in this codebase.
+This project implements a controlled benchmark to compare three widely used vision model families — **ResNet-50**, **EfficientNet-B0**, and **ViT-Tiny** — across two applied image classification domains:
 
-## Directory Structure
+- **Medical imaging**
+- **Industrial / applied science imaging**
+
+The goal is **not** to achieve state-of-the-art results.  
+Instead, the focus is on understanding how different model families behave **under identical training constraints** when the application domain changes.
+
+All experiments follow a fixed setup (image resolution, optimizer, epochs, etc.) to ensure fairness and reproducibility.
+
+---
+
+## Research Motivation
+
+CNNs and Vision Transformers are often evaluated within a single domain.  
+However, model performance and efficiency can vary significantly when the visual characteristics of the data change.
+
+This project aims to:
+- Compare CNN and Transformer model families under a fixed compute budget
+- Study cross-domain behavior rather than single-dataset performance
+- Provide a clean, reproducible benchmarking pipeline suitable for academic use
+
+---
+
+## Domains and Sub-Domains
+
+### Medical Domain
+
+**Experimentally evaluated sub-domain**
+- Histopathology image classification  
+  - Dataset: **PathMNIST**
+
+**Contextual (literature-based) sub-domains**
+1. Chest X-ray disease classification  
+2. Brain MRI tumor classification  
+3. Skin lesion (dermatology) classification  
+4. Retinal fundus disease detection  
+5. OCT retinal imaging  
+6. Ultrasound image classification  
+7. Mammography breast cancer screening  
+8. Bone fracture X-ray classification  
+9. Organ classification in CT/MRI  
+
+These sub-domains are discussed in the `analysis/` folder and are **not experimentally evaluated** in this codebase.
+
+---
+
+### Industrial / Applied Science Domain
+
+**Experimentally evaluated sub-domain**
+- Remote sensing / aerial image classification  
+  - Dataset: **EuroSAT**
+
+**Contextual (literature-based) sub-domains**
+1. Aerial UAV scene classification  
+2. Astronomy image classification (galaxies, stars)  
+3. Climate and weather pattern imaging  
+4. Energy infrastructure monitoring  
+5. Materials science microstructure classification  
+6. Aerospace structural inspection  
+7. Geophysical / seismic image classification  
+8. Optical physics / microscopy (non-medical)  
+9. Fluid dynamics flow visualization  
+
+These are included for interpretation and discussion only.
+
+---
+
+## Models Benchmarked
+
+1. **ResNet-50** – Classical CNN baseline  
+2. **EfficientNet-B0** – Parameter-efficient CNN  
+3. **ViT-Tiny** – Transformer-based vision model (via `timm`)
+
+---
+
+## Project Structure
+
 ```
 vision-benchmark/
-├── configs/        # YAML configuration files for experiments
-├── datasets/       # Data loaders for PathMNIST and EuroSAT
-├── models/         # Wrappers for ResNet, EfficientNet, ViT
-├── analysis/       # Markdown templates for domain analysis
-├── results/        # Output logs, CSVs, and plots
-├── train.py        # Main training script
-└── evaluate.py     # Plotting and evaluation script
+├── configs/
+├── datasets/
+├── models/
+├── analysis/
+├── results/
+├── train.py
+└── evaluate.py
 ```
-## How to Run on Google Colab
 
-1. **Upload Code**: Zip the `vision-benchmark` folder and upload it to your Google Drive.
-2. **Mount Drive**:
-   ```python
-   from google.colab import drive
-   drive.mount('/content/drive')
-   %cd /content/drive/MyDrive/vision-benchmark
-   ```
-3. **Install Requirements**:
-   ```python
-   !pip install -r requirements.txt
-   ```
-4. **Run Training**:
-   ```python
-   # Run all experiments sequentially
-   !python train.py --config configs/pathmnist_resnet.yaml
-   !python train.py --config configs/pathmnist_efficientnet.yaml
-   !python train.py --config configs/pathmnist_vit.yaml
-   
-   !python train.py --config configs/eurosat_resnet.yaml
-   !python train.py --config configs/eurosat_efficientnet.yaml
-   !python train.py --config configs/eurosat_vit.yaml
-   ```
-5. **Generate Plots**:
-   ```python
-   !python evaluate.py --plot-only
-   ```
-   Plots will be saved in `results/plots/`.
+---
 
-## Generating Research Artifacts
-1. **Tables**: The file `results/final_results.csv` contains all raw metrics. Import this into Excel/LaTeX to generate your comparison tables.
-2. **Plots**: Run `python evaluate.py --plot-only` to generate:
-   - `accuracy_comparison.png`
-   - `accuracy_vs_efficiency.png`
+## Execution Instructions
+
+### macOS (Apple Silicon)
+
+```bash
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+python train.py --config configs/pathmnist_resnet.yaml --epochs 2
+```
+
+### Windows
+
+```bat
+python -m venv venv
+venv\Scripts\activate
+pip install -r requirements.txt
+python train.py --config configs/pathmnist_resnet.yaml --epochs 2
+```
+
+### Google Colab (Recommended)
+
+```python
+!git clone https://github.com/<your-username>/vision-benchmark.git
+%cd vision-benchmark
+!pip install -r requirements.txt
+
+!python train.py --config configs/pathmnist_resnet.yaml
+!python train.py --config configs/pathmnist_efficientnet.yaml
+!python train.py --config configs/pathmnist_vit.yaml
+!python train.py --config configs/eurosat_resnet.yaml
+!python train.py --config configs/eurosat_efficientnet.yaml
+!python train.py --config configs/eurosat_vit.yaml
+```
+
+---
+
+## Generating Results
+
+```bash
+python evaluate.py --plot-only
+```
+
+Outputs:
+- `results/final_results.csv`
+- `results/plots/`
+
+---
+
+## Notes
+
+- Only PathMNIST and EuroSAT are experimentally evaluated.
+- Other sub-domains are literature-backed.
+- Results must be interpreted within this fixed-budget setup.
+
+---
+
+## License
+
+Academic and educational use only.
